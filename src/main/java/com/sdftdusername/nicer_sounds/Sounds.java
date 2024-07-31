@@ -1,6 +1,7 @@
 package com.sdftdusername.nicer_sounds;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import de.pottgames.tuningfork.SoundBuffer;
@@ -72,21 +73,22 @@ public class Sounds {
         // 1: Run
         // 2: Crouch
         // 3: Prone
-        // 4: Land
-        // 5: Place
-        // 6: Destroy
-        SoundActions.put("concrete", new String[]{"walk", "run", "walk", "walk", "run", "run", "run"});
-        SoundActions.put("dirt", new String[]{"walk", "run", "walk", "walk", "land", "land", "land"});
-        SoundActions.put("glass", new String[]{"hit", "hit", "hit", "hit", "hard", "hard", "hard"});
-        SoundActions.put("grass", new String[]{"walk", "run", "walk", "walk", "run", "run", "run"});
-        SoundActions.put("gravel", new String[]{"walk", "run", "wander", "wander", "land", "land", "land"});
-        SoundActions.put("leaves", new String[]{"through", "through", "through", "through", "through", "through", "through"});
-        SoundActions.put("metal", new String[]{"walk", "run", "wander", "wander", "land", "land", "land"});
-        SoundActions.put("sand", new String[]{"walk", "run", "walk", "walk", "run", "run", "run"});
-        SoundActions.put("snow", new String[]{"walk", "run", "walk", "walk", "run", "run", "run"});
-        SoundActions.put("stone", new String[]{"walk", "run", "walk", "walk", "run", "run", "run"});
-        SoundActions.put("water", new String[]{"wander", "wander", "wander", "wander", "wander", "through", "through"});
-        SoundActions.put("wood", new String[]{"walk", "walk", "walk", "walk", "walk", "walk", "walk"});
+        // 4: Jump
+        // 5: Land
+        // 6: Place
+        // 7: Destroy
+        SoundActions.put("concrete", new String[]{"walk", "run", "walk", "walk", "run", "run", "run", "run"});
+        SoundActions.put("dirt", new String[]{"walk", "run", "walk", "walk", "land", "land", "land", "land"});
+        SoundActions.put("glass", new String[]{"hit", "hit", "hit", "hit", "hard", "hard", "hard", "hard"});
+        SoundActions.put("grass", new String[]{"walk", "run", "walk", "walk", "run", "run", "run", "run"});
+        SoundActions.put("gravel", new String[]{"walk", "run", "wander", "wander", "land", "land", "land", "land"});
+        SoundActions.put("leaves", new String[]{"through", "through", "through", "through", "through", "through", "through", "through"});
+        SoundActions.put("metal", new String[]{"walk", "run", "wander", "wander", "land", "walk", "land", "land"});
+        SoundActions.put("sand", new String[]{"walk", "run", "walk", "walk", "run", "run", "run", "run"});
+        SoundActions.put("snow", new String[]{"walk", "run", "walk", "walk", "run", "run", "run", "run"});
+        SoundActions.put("stone", new String[]{"walk", "run", "walk", "walk", "run", "run", "run", "run"});
+        SoundActions.put("water", new String[]{"wander", "wander", "wander", "wander", "wander", "wander", "through", "through"});
+        SoundActions.put("wood", new String[]{"walk", "walk", "walk", "walk", "walk", "walk", "walk", "walk"});
 
         BlockRoutes.put("base:air",                 "");
         BlockRoutes.put("base:aluminium_panel",     "metal");
@@ -139,10 +141,24 @@ public class Sounds {
         SoundManager.INSTANCE.playSound(soundBuffers.get(randomIndex), 1.0f, MathUtils.random(0.9f, 1.1f));
     }
 
-    public static boolean BlockHasType(String block, String type) {
-        if (!SoundEffects.containsKey(block))
-            return false;
+    public static void PlaySound3D(String block, String type, Vector3 position) {
+        if (type.isEmpty())
+            return;
 
-        return SoundEffects.get(block).containsKey(type);
+        if (!SoundEffects.containsKey(block)) {
+            NicerSoundsMod.LOGGER.error("No sound effects for block {}", block);
+            return;
+        }
+
+        Map<String, List<SoundBuffer>> types = SoundEffects.get(block);
+
+        if (!types.containsKey(type)) {
+            NicerSoundsMod.LOGGER.error("Block {} does not have type {}", block, type);
+            return;
+        }
+
+        List<SoundBuffer> soundBuffers = types.get(type);
+        int randomIndex = MathUtils.random(0, soundBuffers.size() - 1);
+        SoundManager.INSTANCE.playSound3D(soundBuffers.get(randomIndex), position, 1.0f, MathUtils.random(0.9f, 1.1f));
     }
 }

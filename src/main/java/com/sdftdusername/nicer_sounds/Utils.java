@@ -7,6 +7,12 @@ import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 
 public class Utils {
+    public enum MovementAction {
+        PRESSED,
+        HELD,
+        RELEASED
+    }
+
     public static BlockState GetBlockStateAtPosition(Zone zone, Vector3 position, Vector3 offset) {
         Vector3 blockPosition = new Vector3(position);
         blockPosition.add(offset);
