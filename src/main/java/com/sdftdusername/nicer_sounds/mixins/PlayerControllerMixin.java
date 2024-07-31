@@ -1,14 +1,12 @@
 package com.sdftdusername.nicer_sounds.mixins;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.sdftdusername.nicer_sounds.Sounds;
-import finalforeach.cosmicreach.blocks.Block;
+import com.sdftdusername.nicer_sounds.Utils;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.entities.PlayerController;
-import finalforeach.cosmicreach.world.Chunk;
 import finalforeach.cosmicreach.world.Zone;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,8 +45,11 @@ public class PlayerControllerMixin {
         if (entity.noClip)
             moved = limit;
         else {
-            boolean inWater = getBlockIdAtPosition(zone, entity.position, new Vector3(0, 1, 0)).equals("base:water");
-            boolean partiallyInWater = getBlockIdAtPosition(zone, entity.position, new Vector3(0, 0.1f, 0)).equals("base:water");
+            BlockState block = Utils.GetBlockStateAtPosition(zone, entity.position, new Vector3(0, 1, 0));
+            boolean inWater = block != null && (block.getBlock().getStringId().equals("base:water"));
+
+            block = Utils.GetBlockStateAtPosition(zone, entity.position, new Vector3(0, 0.1f, 0));
+            boolean partiallyInWater = block != null && (block.getBlock().getStringId().equals("base:water"));
 
             if (previouslyInWater != inWater) {
                 previouslyInWater = inWater;
@@ -76,7 +77,15 @@ public class PlayerControllerMixin {
                 moved %= currentLimit;
 
                 if (entity.isOnGround || inWater) {
-                    String blockId = partiallyInWater ? "base:water" : getBlockIdAtPosition(zone, entity.position, new Vector3(0.0f, -0.5f, 0.0f));
+                    String blockId = "";
+
+                    if (partiallyInWater)
+                        blockId = "base:water";
+                    else {
+                        block = Utils.GetBlockStateAtPosition(zone, entity.position, new Vector3(0.0f, -0.5f, 0.0f));
+                        if (block != null)
+                            blockId = block.getBlock().getStringId();
+                    }
 
                     if (!blockId.isEmpty()) {
                         if (Sounds.BlockRoutes.containsKey(blockId)) {
@@ -102,32 +111,5 @@ public class PlayerControllerMixin {
             return 1;
 
         return 0;
-    }
-
-    @Unique
-    private String getBlockIdAtPosition(Zone zone, Vector3 position, Vector3 offset) {
-        Vector3 blockCheckPosition = new Vector3(position);
-        blockCheckPosition.add(offset);
-
-        blockCheckPosition.x = MathUtils.floor(blockCheckPosition.x);
-        blockCheckPosition.y = MathUtils.floor(blockCheckPosition.y);
-        blockCheckPosition.z = MathUtils.floor(blockCheckPosition.z);
-
-        Chunk chunk = zone.getChunkAtPosition(blockCheckPosition);
-        if (chunk != null) {
-            int blockX = Math.floorMod((int)blockCheckPosition.x, 16);
-            int blockY = Math.floorMod((int)blockCheckPosition.y, 16);
-            int blockZ = Math.floorMod((int)blockCheckPosition.z, 16);
-
-            BlockState blockState = chunk.getBlockState(blockX, blockY, blockZ);
-            if (blockState != null) {
-                Block block = blockState.getBlock();
-                if (block != null) {
-                    return block.getStringId();
-                }
-            }
-        }
-
-        return "";
     }
 }
