@@ -1,7 +1,6 @@
 package com.sdftdusername.nicer_sounds.mixins;
 
 import com.badlogic.gdx.math.Vector3;
-import com.sdftdusername.nicer_sounds.NicerSoundsMod;
 import com.sdftdusername.nicer_sounds.Sounds;
 import com.sdftdusername.nicer_sounds.Utils;
 import finalforeach.cosmicreach.blocks.BlockState;
@@ -10,7 +9,6 @@ import finalforeach.cosmicreach.entities.Player;
 import finalforeach.cosmicreach.entities.PlayerController;
 import finalforeach.cosmicreach.settings.Controls;
 import finalforeach.cosmicreach.world.Zone;
-import org.quiltmc.loader.util.sat4j.core.Vec;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -141,7 +139,8 @@ public abstract class PlayerControllerMixin {
         Vector3 velocity = new Vector3(tmpMovement);
         velocity.y = 0;
 
-        boolean isMoving = !(entity.noClip || velocity.isZero() || velocity.len2() < 0.01F);
+        float pressed = Controls.forwardPressed() + Controls.backwardPressed() + Controls.leftPressed() + Controls.rightPressed();
+        boolean isMoving = !entity.noClip && (pressed != 0);
 
         if (previouslyMoving != isMoving) {
             previouslyMoving = isMoving;
