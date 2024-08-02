@@ -42,15 +42,15 @@ public abstract class BlockActionPlaySound2DMixin {
             Block block = srcBlockState.getBlock();
             if (block != null) {
                 String blockId = block.getStringId();
-                if (Sounds.BlockRoutes.containsKey(blockId)) {
-                    String blockSound = Sounds.BlockRoutes.get(blockId);
+                if (Sounds.BlockMaterials.containsKey(blockId)) {
+                    String blockSound = Sounds.BlockMaterials.get(blockId);
                     if (Sounds.SoundActions.containsKey(blockSound)) {
                         Vector3 position = new Vector3(
                                 blockPosition.getGlobalX(),
                                 blockPosition.getGlobalY(),
                                 blockPosition.getGlobalZ()
                         );
-                        Sounds.PlaySound3D(Sounds.BlockRoutes.get(blockId), Sounds.SoundActions.get(blockSound)[index], position);
+                        Sounds.PlaySound3D(blockSound, Sounds.SoundActions.get(blockSound)[index], position);
                     }
                 }
             }

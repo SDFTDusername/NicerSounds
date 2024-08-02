@@ -82,10 +82,10 @@ public class UIMixin {
                 index = 6; // Added
             } // Added
             if (!(blockId.isEmpty() || index == -1)) { // Added
-                if (Sounds.BlockRoutes.containsKey(blockId)) { // Added
-                    String blockSound = Sounds.BlockRoutes.get(blockId); // Added
+                if (Sounds.BlockMaterials.containsKey(blockId)) { // Added
+                    String blockSound = Sounds.BlockMaterials.get(blockId); // Added
                     if (Sounds.SoundActions.containsKey(blockSound)) // Added
-                        Sounds.PlaySound(Sounds.BlockRoutes.get(blockId), Sounds.SoundActions.get(blockSound)[index]); // Added
+                        Sounds.PlaySound(blockSound, Sounds.SoundActions.get(blockSound)[index]); // Added
                 } // Added
             } // Added
         } // Added

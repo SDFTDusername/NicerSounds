@@ -46,10 +46,10 @@ public abstract class PlayerControllerMixin {
             blockId = blockState.getBlock().getStringId();
         }
 
-        if (!Sounds.BlockRoutes.containsKey(blockId)) // Check if the block has a material assigned to it
+        if (!Sounds.BlockMaterials.containsKey(blockId)) // Check if the block has a material assigned to it
             return;
 
-        String material = Sounds.BlockRoutes.get(blockId);
+        String material = Sounds.BlockMaterials.get(blockId);
 
         if (!Sounds.SoundActions.containsKey(material)) // Check if the material has sounds
             return;

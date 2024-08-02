@@ -7,7 +7,7 @@ for path in os.listdir("./"):
         continue
     result[path] = os.listdir(path)
 
-with open("contents.json", "w") as file:
+with open("materials.json", "w") as file:
     json.dump(result, file, indent='\t')
 
-print("Done! Saved to contents.json")
+print("Done! Saved to materials.json")
