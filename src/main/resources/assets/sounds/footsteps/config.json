@@ -1,0 +1,153 @@
+{
+	"blocks": {
+		"base:aluminium_panel": 	"metal",
+		"base:asphalt": 			"stone",
+		"base:boombox": 			"metal",
+		"base:c4": 					"metal",
+		"base:cheese": 				"gravel",
+		"base:coconut": 			"wood",
+		"base:crate_wooden": 		"wood",
+		"base:dirt": 				"dirt",
+		"base:glass": 				"glass",
+		"base:grass": 				"grass",
+		"base:hazard": 				"stone",
+		"base:leaves": 				"leaves",
+		"base:light": 				"glass",
+		"base:lunar_soil": 			"stone",
+		"base:lunar_soil_packed": 	"concrete",
+		"base:magma": 				"stone",
+		"base:metal_panel": 		"metal",
+		"base:sand": 				"sand",
+		"base:snow": 				"snow",
+		"base:stone_basalt": 		"stone",
+		"base:stone_gabbro": 		"stone",
+		"base:stone_gravel": 		"gravel",
+		"base:stone_limestone": 	"stone",
+		"base:tree_log": 			"wood",
+		"base:water": 				"water",
+		"base:wood_planks": 		"wood"
+	},
+	"materials": {
+		"concrete": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"walk",
+			"prone": 	"walk",
+			"jump": 	"run",
+			"land": 	"run",
+			"place": 	"run",
+			"break": 	"run"
+		},
+		"dirt": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"walk",
+			"prone": 	"walk",
+			"jump": 	"walk",
+			"land": 	"land",
+			"place": 	"land",
+			"break": 	"land"
+		},
+		"glass": {
+			"walk": 	"hit",
+			"run": 		"hit",
+			"crouch": 	"hit",
+			"prone": 	"hit",
+			"jump": 	"hard",
+			"land": 	"hard",
+			"place": 	"hard",
+			"break": 	"hard"
+		},
+		"grass": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"walk",
+			"prone": 	"walk",
+			"jump": 	"run",
+			"land": 	"run",
+			"place": 	"run",
+			"break": 	"run"
+		},
+		"gravel": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"wander",
+			"prone": 	"wander",
+			"jump": 	"land",
+			"land": 	"land",
+			"place": 	"land",
+			"break": 	"land"
+		},
+		"leaves": {
+			"walk": 	"through",
+			"run": 		"through",
+			"crouch": 	"through",
+			"prone": 	"through",
+			"jump": 	"through",
+			"land": 	"through",
+			"place": 	"through",
+			"break": 	"through"
+		},
+		"metal": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"wander",
+			"prone": 	"wander",
+			"jump": 	"land",
+			"land": 	"walk",
+			"place": 	"land",
+			"break": 	"land"
+		},
+		"sand": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"walk",
+			"prone": 	"walk",
+			"jump": 	"run",
+			"land": 	"run",
+			"place": 	"run",
+			"break": 	"run"
+		},
+		"snow": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"walk",
+			"prone": 	"walk",
+			"jump": 	"run",
+			"land": 	"run",
+			"place": 	"run",
+			"break": 	"run"
+		},
+		"stone": {
+			"walk": 	"walk",
+			"run": 		"run",
+			"crouch": 	"walk",
+			"prone": 	"walk",
+			"jump": 	"run",
+			"land": 	"run",
+			"place": 	"run",
+			"break": 	"run"
+		},
+		"water": {
+			"walk": 	"wander",
+			"run": 		"wander",
+			"crouch": 	"wander",
+			"prone": 	"wander",
+			"jump": 	"wander",
+			"land": 	"wander",
+			"place": 	"through",
+			"break": 	"through",
+			"swim": 	"through"
+		},
+		"wood": {
+			"walk": 	"walk",
+			"run": 		"walk",
+			"crouch": 	"walk",
+			"prone": 	"walk",
+			"jump": 	"walk",
+			"land": 	"walk",
+			"place": 	"walk",
+			"break": 	"walk"
+		}
+	}
+}

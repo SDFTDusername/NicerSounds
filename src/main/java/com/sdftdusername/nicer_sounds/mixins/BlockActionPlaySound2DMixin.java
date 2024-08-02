@@ -31,11 +31,11 @@ public abstract class BlockActionPlaySound2DMixin {
         boolean breakSnd = sound.equals("block-break.ogg");
 
         if (placeSnd || breakSnd) {
-            int index;
+            String action;
             if (placeSnd)
-                index = 5;
+                action = "place";
             else
-                index = 6;
+                action = "break";
 
             BlockPosition blockPosition = (BlockPosition)args.get("blockPos");
 
@@ -50,7 +50,7 @@ public abstract class BlockActionPlaySound2DMixin {
                                 blockPosition.getGlobalY(),
                                 blockPosition.getGlobalZ()
                         );
-                        Sounds.PlaySound3D(blockSound, Sounds.SoundActions.get(blockSound)[index], position);
+                        Sounds.PlaySound3D(blockSound, Sounds.SoundActions.get(blockSound).get(action), position);
                     }
                 }
             }

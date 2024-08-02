@@ -16,6 +16,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Map;
+
 @Mixin(PlayerController.class)
 public abstract class PlayerControllerMixin {
     @Shadow private transient Vector3 tmpMovement;
@@ -32,7 +34,7 @@ public abstract class PlayerControllerMixin {
     @Unique private double moved = 0;
 
     @Unique
-    private void PlaySound(Zone zone, int actionIndex, boolean inWater) {
+    private void PlaySound(Zone zone, String action, boolean inWater) {
         Entity entity = getEntity();
         String blockId;
 
@@ -54,18 +56,23 @@ public abstract class PlayerControllerMixin {
         if (!Sounds.SoundActions.containsKey(material)) // Check if the material has sounds
             return;
 
-        String type = Sounds.SoundActions.get(material)[actionIndex];
+        Map<String, String> types = Sounds.SoundActions.get(material);
+
+        if (!types.containsKey(action))
+            return;
+        String type = types.get(action);
+
         Sounds.PlaySound3D(material, type, entity.position);
     }
 
     @Unique
-    private void PlaySound(Zone zone, int actionIndex) {
-        PlaySound(zone, actionIndex, false);
+    private void PlaySound(Zone zone, String action) {
+        PlaySound(zone, action, false);
     }
 
     @Unique
     private void PlayerJumped(Zone zone) {
-        PlaySound(zone, 4); // 4 is the index for jumping
+        PlaySound(zone, "jump");
         moved = 0;
     }
 
@@ -91,18 +98,18 @@ public abstract class PlayerControllerMixin {
             moved %= currentLimit;
 
             if (entity.isOnGround || partiallyInWater) {
-                int actionIndex;
+                String soundAction;
 
                 if (player.isProne)
-                    actionIndex = 3;
+                    soundAction = "prone";
                 else if (entity.isSneaking)
-                    actionIndex = 2;
+                    soundAction = "crouch";
                 else if (player.isSprinting)
-                    actionIndex = 1;
+                    soundAction = "run";
                 else
-                    actionIndex = 0;
+                    soundAction = "walk";
 
-                PlaySound(zone, actionIndex, partiallyInWater);
+                PlaySound(zone, soundAction, partiallyInWater);
             }
         }
     }
@@ -110,7 +117,7 @@ public abstract class PlayerControllerMixin {
     @Unique
     private void PlayerLanded(Zone zone, boolean jumped) {
         if (!jumped)
-            PlaySound(zone, 5); // 5 is the index for landing
+            PlaySound(zone, "land");
         moved = 0;
     }
 
@@ -128,7 +135,20 @@ public abstract class PlayerControllerMixin {
 
         if (previouslyInWater != inWater) {
             previouslyInWater = inWater;
-            Sounds.PlaySound3D("water", "through", entity.position);
+
+            if (!Sounds.BlockMaterials.containsKey("base:water"))
+                return;
+            String material = Sounds.BlockMaterials.get("base:water");
+
+            if (!Sounds.SoundActions.containsKey(material))
+                return;
+            Map<String, String> types = Sounds.SoundActions.get(material);
+
+            if (!types.containsKey("swim"))
+                return;
+            String type = types.get("swim");
+
+            Sounds.PlaySound3D(material, type, entity.position);
         }
     }
 

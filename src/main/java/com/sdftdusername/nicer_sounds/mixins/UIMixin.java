@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Map;
+
 @Mixin(UI.class)
 public class UIMixin {
     @Shadow
@@ -73,19 +75,22 @@ public class UIMixin {
 
         if (playPlace || playBreak) { // Added
             String blockId = ""; // Added
-            int index = -1; // Added
+            String action = ""; // Added
             if (playPlace && placeBlock != null) { // Added
                 blockId = placeBlock.getStringId(); // Added
-                index = 5; // Added
+                action = "place"; // Added
             } else if (playBreak && breakBlock != null) { // Added
                 blockId = breakBlock.getStringId(); // Added
-                index = 6; // Added
+                action = "break"; // Added
             } // Added
-            if (!(blockId.isEmpty() || index == -1)) { // Added
+            if (!blockId.isEmpty() && !action.isEmpty()) { // Added
                 if (Sounds.BlockMaterials.containsKey(blockId)) { // Added
                     String blockSound = Sounds.BlockMaterials.get(blockId); // Added
-                    if (Sounds.SoundActions.containsKey(blockSound)) // Added
-                        Sounds.PlaySound(blockSound, Sounds.SoundActions.get(blockSound)[index]); // Added
+                    if (Sounds.SoundActions.containsKey(blockSound)) { // Added
+                        Map<String, String> types = Sounds.SoundActions.get(blockSound); // Added
+                        if (types.containsKey(action)) // Added
+                            Sounds.PlaySound(blockSound, types.get(action)); // Added
+                    } // Added
                 } // Added
             } // Added
         } // Added
