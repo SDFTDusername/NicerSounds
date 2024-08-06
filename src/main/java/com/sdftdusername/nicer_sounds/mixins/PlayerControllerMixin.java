@@ -29,7 +29,7 @@ public abstract class PlayerControllerMixin {
     @Unique private boolean previouslyInWater = false;
 
     @Unique private static final double limit = 25;
-    @Unique private static final double waterLimit = 35;
+    @Unique private static final double waterLimit = 50;
 
     @Unique private double moved = 0;
 

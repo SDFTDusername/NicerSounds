@@ -93,7 +93,7 @@
 			"run": 		"run",
 			"crouch": 	"wander",
 			"prone": 	"wander",
-			"jump": 	"land",
+			"jump": 	"walk",
 			"land": 	"walk",
 			"place": 	"land",
 			"break": 	"land"

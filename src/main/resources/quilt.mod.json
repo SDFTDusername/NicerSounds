@@ -10,12 +10,11 @@
 
     "metadata": {
       "name": "${mod_name}",
-      "description": "Adds more sound effects to Cosmic Reach.",
+      "description": "Adds footstep sounds and placing and breaking sounds.",
       "contributors": {
         "SDFTDusername": "Programmer",
         "Presence Footsteps Mod": "Sound effects",
-        "Ambient Sounds Mod": "Ambience sounds",
-        "Terraria": "Menu open and close sound"
+        "Terraria": "Inventory open and close sound"
       },
 
       "contact": {
@@ -24,7 +23,7 @@
         "sources": "https://codeberg.org/CRModders/cosmic-quilt-example/"
       },
 
-      "icon": "assets/nicer_Sounds/icon.png"
+      "icon": "assets/nicer_sounds/icon.png"
     },
 
     "entrypoints": {

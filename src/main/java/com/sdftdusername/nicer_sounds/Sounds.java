@@ -82,17 +82,12 @@ public class Sounds {
 
             //NicerSoundsMod.LOGGER.info("{}", material.size);
             for (int i = 0; i < material.size; ++i) {
-                NicerSoundsMod.LOGGER.info("1");
                 JsonValue value = material.get(i);
-                NicerSoundsMod.LOGGER.info("2");
 
                 String action = value.name(); // walk
-                NicerSoundsMod.LOGGER.info("3");
                 String type = value.asString(); // walk
-                NicerSoundsMod.LOGGER.info("4");
 
                 actions.put(action, type);
-                NicerSoundsMod.LOGGER.info("{} => {}", action, type);
             }
 
             SoundActions.put(materialName, actions);
