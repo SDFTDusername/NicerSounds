@@ -1,4 +1,4 @@
-package com.sdftdusername.nicer_sounds;
+package io.github.sdftdusername.nicersounds;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
@@ -8,7 +8,10 @@ import de.pottgames.tuningfork.SoundBuffer;
 import finalforeach.cosmicreach.GameAssetLoader;
 import finalforeach.cosmicreach.audio.SoundManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Sounds {
     public static Map<String, Map<String, List<SoundBuffer>>> Materials = new HashMap<>();
@@ -24,7 +27,7 @@ public class Sounds {
     public static SoundBuffer SwitchSlotSound;
 
     public static void LoadSounds() {
-        NicerSoundsMod.LOGGER.info("Loading UI sounds");
+        NicerSounds.LOGGER.info("Loading UI sounds");
 
         OpenMenuSound = GameAssetLoader.getSound("assets/sounds/ui/menu_open.ogg");
         CloseMenuSound = GameAssetLoader.getSound("assets/sounds/ui/menu_close.ogg");
@@ -32,7 +35,7 @@ public class Sounds {
         SwitchHandSound = GameAssetLoader.getSound("assets/sounds/ui/switch_hand.ogg");
         SwitchSlotSound = GameAssetLoader.getSound("assets/sounds/ui/switch_slot.ogg");
 
-        NicerSoundsMod.LOGGER.info("Loading material sounds");
+        NicerSounds.LOGGER.info("Loading material sounds");
 
         String materialsJson = GameAssetLoader.loadAsset("assets/sounds/footsteps/materials.json").readString();
         JsonReader reader = new JsonReader();
@@ -40,7 +43,7 @@ public class Sounds {
 
         for (JsonValue material : materials) {
             String materialName = material.name(); // water
-            NicerSoundsMod.LOGGER.info("Loading sounds for {}", materialName);
+            NicerSounds.LOGGER.info("Loading sounds for {}", materialName);
 
             Map<String, List<SoundBuffer>> types = new HashMap<>();
             // {"wander": [...], "through": [...]}
@@ -69,7 +72,7 @@ public class Sounds {
             Materials.put(materialName, types);
         }
 
-        NicerSoundsMod.LOGGER.info("Loading sound actions");
+        NicerSounds.LOGGER.info("Loading sound actions");
 
         String configJson = GameAssetLoader.loadAsset("assets/sounds/footsteps/config.json").readString();
         JsonValue config = reader.parse(configJson);
@@ -93,7 +96,7 @@ public class Sounds {
             SoundActions.put(materialName, actions);
         }
 
-        NicerSoundsMod.LOGGER.info("Loading block materials");
+        NicerSounds.LOGGER.info("Loading block materials");
 
         for (JsonValue block : config.get("blocks")) {
             String id = block.name(); // base:grass
@@ -102,7 +105,7 @@ public class Sounds {
             BlockMaterials.put(id, material);
         }
 
-        NicerSoundsMod.LOGGER.info("Successfully loaded all sounds!");
+        NicerSounds.LOGGER.info("Successfully loaded all sounds!");
     }
 
     private static void playSound(String block, String type, boolean playIn3D, Vector3 position) {
@@ -110,14 +113,14 @@ public class Sounds {
             return;
 
         if (!Materials.containsKey(block)) {
-            NicerSoundsMod.LOGGER.error("No sound effects for block {}", block);
+            NicerSounds.LOGGER.error("No sound effects for block {}", block);
             return;
         }
 
         Map<String, List<SoundBuffer>> types = Materials.get(block);
 
         if (!types.containsKey(type)) {
-            NicerSoundsMod.LOGGER.error("Block {} does not have type {}", block, type);
+            NicerSounds.LOGGER.error("Block {} does not have type {}", block, type);
             return;
         }
 

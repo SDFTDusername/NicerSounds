@@ -1,4 +1,4 @@
-package com.sdftdusername.nicer_sounds;
+package io.github.sdftdusername.nicersounds;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;

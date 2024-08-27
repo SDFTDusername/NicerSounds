@@ -1,13 +1,13 @@
-package com.sdftdusername.nicer_sounds.mixins;
+package io.github.sdftdusername.nicersounds.mixins;
 
 import com.badlogic.gdx.math.Vector3;
-import com.sdftdusername.nicer_sounds.Sounds;
 import finalforeach.cosmicreach.blockevents.BlockEventTrigger;
 import finalforeach.cosmicreach.blockevents.actions.BlockActionPlaySound2D;
 import finalforeach.cosmicreach.blocks.Block;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.blocks.BlockState;
 import finalforeach.cosmicreach.world.Zone;
+import io.github.sdftdusername.nicersounds.Sounds;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
