@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Map;
 
 @Mixin(UI.class)
-public class UIMixin {
+public abstract class UIMixin {
     @Shadow
     private Viewport uiViewport;
 
@@ -26,19 +26,22 @@ public class UIMixin {
     @Shadow
     public static boolean mouseOverUI;
 
+    @Shadow
+    public static boolean isInventoryOpen() { return false; }
+
     /**
      * @author SDFTDusername
      * @reason Play sound when grabbing or removing item
      */
     @Overwrite
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        boolean playPlace = false; // Added
-        boolean playBreak = false; // Added
+        if (isInventoryOpen()) {
+            boolean playPlace = false; // Added
+            boolean playBreak = false; // Added
 
-        Block placeBlock = null; // Added
-        Block breakBlock = null; // Added
+            Block placeBlock = null; // Added
+            Block breakBlock = null; // Added
 
-        if (itemCatalog.isShown()) {
             screenX -= this.uiViewport.getScreenWidth() / 2;
             screenY -= this.uiViewport.getScreenHeight() / 2;
             float sx = (float)screenX / (float)this.uiViewport.getScreenWidth() * this.uiViewport.getWorldWidth();
@@ -65,35 +68,37 @@ public class UIMixin {
                     ItemStack itemStack = slot.itemStack;
                     if (itemStack != null && itemCatalog.isHoveredOverSlot(slot, this.uiViewport, sx, sy)) {
                         InGame.getLocalPlayer().inventory.merge(itemStack.copy(), ItemMergeStrategy.ONLY_ONE_SLOT);
-                        playBreak = false; // Added
-                        playPlace = true; // Added
-                        placeBlock = ((ItemBlock)itemStack.getItem()).getBlockState().getBlock(); // Added
+                        if (itemStack.getItem() instanceof ItemBlock) { // Added
+                            playBreak = false; // Added
+                            playPlace = true; // Added
+                            placeBlock = ((ItemBlock)itemStack.getItem()).getBlockState().getBlock(); // Added
+                        } // Added
                     }
                 }
             }
-        }
 
-        if (playPlace || playBreak) { // Added
-            String blockId = ""; // Added
-            String action = ""; // Added
-            if (playPlace && placeBlock != null) { // Added
-                blockId = placeBlock.getStringId(); // Added
-                action = "place"; // Added
-            } else if (playBreak && breakBlock != null) { // Added
-                blockId = breakBlock.getStringId(); // Added
-                action = "break"; // Added
-            } // Added
-            if (!blockId.isEmpty() && !action.isEmpty()) { // Added
-                if (Sounds.BlockMaterials.containsKey(blockId)) { // Added
-                    String blockSound = Sounds.BlockMaterials.get(blockId); // Added
-                    if (Sounds.SoundActions.containsKey(blockSound)) { // Added
-                        Map<String, String> types = Sounds.SoundActions.get(blockSound); // Added
-                        if (types.containsKey(action)) // Added
-                            Sounds.PlaySound(blockSound, types.get(action)); // Added
+            if (playPlace || playBreak) { // Added
+                String blockId = ""; // Added
+                String action = ""; // Added
+                if (playPlace && placeBlock != null) { // Added
+                    blockId = placeBlock.getStringId(); // Added
+                    action = "place"; // Added
+                } else if (playBreak && breakBlock != null) { // Added
+                    blockId = breakBlock.getStringId(); // Added
+                    action = "break"; // Added
+                } // Added
+                if (!blockId.isEmpty() && !action.isEmpty()) { // Added
+                    if (Sounds.BlockMaterials.containsKey(blockId)) { // Added
+                        String blockSound = Sounds.BlockMaterials.get(blockId); // Added
+                        if (Sounds.SoundActions.containsKey(blockSound)) { // Added
+                            Map<String, String> types = Sounds.SoundActions.get(blockSound); // Added
+                            if (types.containsKey(action)) // Added
+                                Sounds.PlaySound(blockSound, types.get(action)); // Added
+                        } // Added
                     } // Added
                 } // Added
             } // Added
-        } // Added
+        }
 
         return false;
     }
